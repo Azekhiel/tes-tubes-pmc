@@ -198,144 +198,79 @@ void bacaBiayaTindakan(char *filename) {
 //     }
 // }
 
-void rapikanFormat(){
+
+
+void rapikanFormat() {
     char temp_tanggal[100];
     char temp_tahun[10];
     char temp_bulan[16];
     char tahun[20];
     dataPasien *current = head_dataPasien;
-    while (current!= NULL){
-        if (strstr(current->tanggal_lahir,"Jan")!=NULL){
-            strcpy(temp_bulan,"Januari ");
-        }
-        else if (strstr(current->tanggal_lahir,"Feb")!=NULL){
-            strcpy(temp_bulan,"Februari ");
 
-            // strcat(temp_tanggal,temp_bulan);
-            // strcat(temp_tanggal,temp_tahun);
-            // strcpy(current->tanggal_lahir, temp_tanggal);
-        }
-
-        else if (strstr(current->tanggal_lahir,"Mar")!=NULL){
-            strcpy(temp_bulan,"Maret ");
-
-            // strcat(temp_tanggal,temp_bulan);
-            // strcat(temp_tanggal,temp_tahun);
-            // strcpy(current->tanggal_lahir, temp_tanggal);
-        }
-
-        else if (strstr(current->tanggal_lahir,"Apr")!=NULL){
-            strcpy(temp_bulan,"April ");
-            temp_tanggal[0] = current->tanggal_lahir [0];
-            temp_tanggal[1] = current->tanggal_lahir [1];
-            temp_tanggal[2] = ' ';
-            if (strrchr(current->tanggal_lahir,"-")!=NULL){
-                strcpy(temp_tahun,strrchr(current->tanggal_lahir,"-") +1);
-                
-                if (atoi(temp_tahun<=24)){
-                    strcpy(tahun,"20");
-                    strcat(tahun,temp_tahun);                }
-                else{
-                    strcpy(tahun,"19");
-                    strcat(tahun,temp_tahun);
-                 }                
-            }
-            else if (strrchr(current->tanggal_lahir," ")!=NULL){
-                strcpy(temp_tahun,strrchr(current->tanggal_lahir," ") +1);
-            }
-            // strcat(temp_tanggal,temp_bulan);
-            // strcat(temp_tanggal,temp_tahun);
-            // strcpy(current->tanggal_lahir, temp_tanggal);
-        }
-
-        else if (strstr(current->tanggal_lahir,"Mei")!=NULL){
-            strcpy(temp_bulan,"Mei ");
-
-            // strcat(temp_tanggal,temp_bulan);
-            // strcat(temp_tanggal,temp_tahun);
-            // strcpy(current->tanggal_lahir, temp_tanggal);
-        }
-
-        else if (strstr(current->tanggal_lahir,"Jun")!=NULL){
-            strcpy(temp_bulan,"Juni ");
-
-            // strcat(temp_tanggal,temp_bulan);
-            // strcat(temp_tanggal,temp_tahun);
-            // strcpy(current->tanggal_lahir, temp_tanggal);
-        }
-
-        else if (strstr(current->tanggal_lahir,"Jul")!=NULL){
-            strcpy(temp_bulan,"Juli ");
-
-            // strcat(temp_tanggal,temp_bulan);
-            // strcat(temp_tanggal,temp_tahun);
-            // strcpy(current->tanggal_lahir, temp_tanggal);
-        }
-
-        else if (strstr(current->tanggal_lahir,"Agu")!=NULL){
-            strcpy(temp_bulan,"Agustus ");
-
-            // strcat(temp_tanggal,temp_bulan);
-            // strcat(temp_tanggal,temp_tahun);
-            // strcpy(current->tanggal_lahir, temp_tanggal);
-        }
-
-        else if (strstr(current->tanggal_lahir,"Sep")!=NULL){
-            strcpy(temp_bulan,"September ");
-
-            // strcat(temp_tanggal,temp_bulan);
-            // strcat(temp_tanggal,temp_tahun);
-            // strcpy(current->tanggal_lahir, temp_tanggal);
-        }
-
-        else if (strstr(current->tanggal_lahir,"Okt")!=NULL){
-            strcpy(temp_bulan,"Oktober ");
-
-            // strcat(temp_tanggal,temp_bulan);
-            // strcat(temp_tanggal,temp_tahun);
-            // strcpy(current->tanggal_lahir, temp_tanggal);
-        }
-
-        else if (strstr(current->tanggal_lahir,"Nov")!=NULL){
-            strcpy(temp_bulan,"November ");
-
-            // strcat(temp_tanggal,temp_bulan);
-            // strcat(temp_tanggal,temp_tahun);
-            // strcpy(current->tanggal_lahir, temp_tanggal);
-        }
-
-        else if (strstr(current->tanggal_lahir,"Des")!=NULL){
-            strcpy(temp_bulan,"Desember ");
-
-            // strcat(temp_tanggal,temp_bulan);
-            // strcat(temp_tanggal,temp_tahun);
-            // strcpy(current->tanggal_lahir, temp_tanggal);
-        }
-            temp_tanggal[0] = current->tanggal_lahir [0];
-            temp_tanggal[1] = current->tanggal_lahir [1];
-            temp_tanggal[2] = ' ';
-
-            if (strrchr(current->tanggal_lahir,"-")!=NULL){
-                strcpy(temp_tahun,strrchr(current->tanggal_lahir,"-") +1);
-                if (atoi(temp_tahun<=24)){
-                    strcpy(tahun,"20");
-                    strcat(tahun,temp_tahun);                }
-                else{
-                    strcpy(tahun,"19");
-                    strcat(tahun,temp_tahun);
-                 }                
-            }
-            else if (strrchr(current->tanggal_lahir," ")!=NULL){
-                strcpy(temp_tahun,strrchr(current->tanggal_lahir," ") +1);
-            }        
-
-            strcat(temp_tanggal,temp_bulan);
-            strcat(temp_tanggal,tahun);
-            strcpy(current->tanggal_lahir, temp_tanggal);        
+    while (current != NULL) {
+        // If the date already contains the full month name and a 4-digit year, skip it
+        if (strchr(current->tanggal_lahir, '-') == NULL && strlen(current->tanggal_lahir) > 10) {
             current = current->next;
-    }
+            continue;
+        }
 
+        // Extract day
+        temp_tanggal[0] = current->tanggal_lahir[0];
+        temp_tanggal[1] = current->tanggal_lahir[1];
+        temp_tanggal[2] = ' ';
+        temp_tanggal[3] = '\0'; // Null-terminate the string
+
+        // Determine the month and translate to full Indonesian month name
+        if (strstr(current->tanggal_lahir, "Jan") != NULL) {
+            strcpy(temp_bulan, "Januari ");
+        } else if (strstr(current->tanggal_lahir, "Feb") != NULL) {
+            strcpy(temp_bulan, "Februari ");
+        } else if (strstr(current->tanggal_lahir, "Mar") != NULL) {
+            strcpy(temp_bulan, "Maret ");
+        } else if (strstr(current->tanggal_lahir, "Apr") != NULL) {
+            strcpy(temp_bulan, "April ");
+        } else if (strstr(current->tanggal_lahir, "Mei") != NULL) {
+            strcpy(temp_bulan, "Mei ");
+        } else if (strstr(current->tanggal_lahir, "Jun") != NULL) {
+            strcpy(temp_bulan, "Juni ");
+        } else if (strstr(current->tanggal_lahir, "Jul") != NULL) {
+            strcpy(temp_bulan, "Juli ");
+        } else if (strstr(current->tanggal_lahir, "Agu") != NULL) {
+            strcpy(temp_bulan, "Agustus ");
+        } else if (strstr(current->tanggal_lahir, "Sep") != NULL) {
+            strcpy(temp_bulan, "September ");
+        } else if (strstr(current->tanggal_lahir, "Okt") != NULL) {
+            strcpy(temp_bulan, "Oktober ");
+        } else if (strstr(current->tanggal_lahir, "Nov") != NULL) {
+            strcpy(temp_bulan, "November ");
+        } else if (strstr(current->tanggal_lahir, "Des") != NULL) {
+            strcpy(temp_bulan, "Desember ");
+        }
+
+        // Extract the year part
+        if (strrchr(current->tanggal_lahir, '-') != NULL) {
+            strcpy(temp_tahun, strrchr(current->tanggal_lahir, '-') + 1);
+        } else if (strrchr(current->tanggal_lahir, ' ') != NULL) {
+            strcpy(temp_tahun, strrchr(current->tanggal_lahir, ' ') + 1);
+        }
+
+        // Convert the year to a 4-digit year
+        int year = atoi(temp_tahun);
+        if (year <= 24) {
+            sprintf(tahun, "20%02d", year);
+        } else {
+            sprintf(tahun, "19%02d", year);
+        }
+
+        // Construct the new date string
+        strcat(temp_tanggal, temp_bulan);
+        strcat(temp_tanggal, tahun);
+        strcpy(current->tanggal_lahir, temp_tanggal);
+
+        current = current->next;
+    }
 }
+
 
 void printLinkedList() {
     printf("| No | Nama Lengkap     | Alamat             | Kota          | Tempat Lahir   | Tanggal Lahir | Umur | No BPJS    | ID        |\n");
