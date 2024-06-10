@@ -19,4 +19,4 @@ jobs:
 
     - name: Build and Run Tests
       run: |
-          gcc main.c 
+          gcc main.c -o -lm
